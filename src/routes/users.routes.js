@@ -5,7 +5,10 @@ import uploader from '../utils/multer.js';
 const router = Router();
 
 router.get("/premium/:uid", changeRole)
-router.get("/:uid/documents", uploader('documents').array('documents'), addDocuments)
+router.post("/:uid/documents", uploader('documents').array('documents'), addDocuments)
+router.get("/now", async (req, res) => {
+    res.send(req.session.user)
+})
 
 
 export default router;

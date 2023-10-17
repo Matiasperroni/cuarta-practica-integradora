@@ -1,9 +1,12 @@
 import express from "express";
+//routers
 import productsRouter from "./routes/products.routes.js";
 import cartsRouter from "./routes/carts.routes.js";
 import viewsRouter from "./routes/views.routes.js";
 import sessionsRouter from "./routes/sessions.routes.js";
 import chatRouter from "./routes/chat.routes.js";
+import userRouter from "./routes/users.routes.js"
+
 import { Server } from "socket.io";
 import __dirname from "./utils.js";
 import handlebars from "express-handlebars";
@@ -83,6 +86,7 @@ app.use("/api/carts", cartsRouter);
 app.use("/", viewsRouter);
 app.use("/sessions", sessionsRouter);
 app.use("/", chatRouter);
+app.use("/api/users", userRouter)
 
 app.get("/api/loggerTest", (req, res) => {
     req.logger.debug("Error debug."); //

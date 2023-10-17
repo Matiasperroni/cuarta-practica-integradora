@@ -14,7 +14,7 @@ export const sendProductList = async () => {
         }
         return products;
     } catch (error) {
-        req.logger.error(`Interval server error getting products ${error}`);
+        req.logger.error(`Server error getting products ${error}`);
     }
 };
 

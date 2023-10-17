@@ -1,3 +1,5 @@
+import { setLastConnection } from "../controllers/sessions.controller.js";
+
 export const isConnected = (req, res, next) => {
     if (req.session.user) return res.redirect("/api/products");
     next();
@@ -20,7 +22,7 @@ export const isAdminOrPremium = (req, res, next) => {
 export const isUserPremiumOrAdmin = (req, res, next) => {
     const user = req.session.user;
     console.log("soy el user del middleware", user);
-    if(!user) res.status(401).redirect("/login")
+    if (!user) res.status(401).redirect("/login");
     if (
         user?.role === "Admin" ||
         user?.role === "Premium" ||
@@ -38,12 +40,25 @@ export const isUserPremiumOrAdmin = (req, res, next) => {
 };
 
 export const isUserAvailableToAddToCart = (req, res, next) => {
-    if(req?.session?.user?.role === "User" || req?.session?.user?.role === "Premium") {
-        next()
+    if (
+        req?.session?.user?.role === "User" ||
+        req?.session?.user?.role === "Premium"
+    ) {
+        next();
     } else {
         return res
             .status(403)
-            .send({ error: "You must be an user to add products to cart." })
+            .send({ error: "You must be an user to add products to cart." });
     }
 };
 
+export const setLastConnectionMiddleware = async (req, res, next) => {
+    let email;
+    if(!req?.session?.user?.email) {
+        email = req.user.email;
+    } else {
+        email = req.session.user.email;
+    }
+    await setLastConnection(email);
+    next();
+};

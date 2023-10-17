@@ -82,17 +82,12 @@ export const sendEmail = (req, res) => {
 export const changePassword = async (req, res) => {
     try {
         const { token } = req.params;
-        // console.log("soy el token", token);
         const { newPassword } = req.body;
-        // console.log("soy el pw", newPassword);
 
         const data = jwt.decode(token);
-        // console.log("soy el data", data);
         const email = data.email;
-        // console.log("soy el email", email);
 
         const user = await userModel.findOne({ email });
-        // console.log("soy el user", user);
         if (!user) {
             req.logger.error("User not found");
             res.status(404).send("User not found");
@@ -113,8 +108,8 @@ export const changePassword = async (req, res) => {
 
         res.status(200).send("Your password has been changed.");
     } catch (error) {
-        req.logger.error(`Interval error changing password. ${error}`);
-        res.status(500).send(`Interval server error. ${error}`);
+        req.logger.error(`Error changing password. ${error}`);
+        res.status(500).send(`Server error. ${error}`);
     }
 };
 
@@ -123,3 +118,17 @@ export const getCartFromUser = async (req, res) => {
     // console.log(cart, "soy el cart de la ruta");
     res.send({cart});
 };
+
+
+export const setLastConnection = async (email) =>{
+    try {
+        const user = await userModel.findOne({ email });
+        if( !user ) throw new Error('User not found');
+        const updated = await user.updateOne({ last_connection: new Date().toLocaleString('en-GB', {
+            hour12: false,
+          }) })
+          console.log(updated);
+    } catch (e) {
+        throw new Error(e);
+    }
+}

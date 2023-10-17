@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import {isConnected, isDisconnected, isUserPremiumOrAdmin} from "../middlewares/middlewares.js";
+import {isConnected, isUserPremiumOrAdmin} from "../middlewares/middlewares.js";
 import { validateToken } from '../utils.js';
-import { addMessage, getMessages, register, login, profile, changeRole} from "../controllers/views.controller.js"
+import { addMessage, getMessages, register, login, profile} from "../controllers/views.controller.js"
 
 
 const router = Router();
@@ -21,6 +21,6 @@ router.get("/restorepass/:token", validateToken, (req, res) => {
     res.render('restorePass', { token: req.params.token });
   })
 
-router.get("/api/users/premium/:uid", changeRole)
+// router.get("/api/users/premium/:uid", changeRole)
 
 export default router;

@@ -23,7 +23,6 @@ class ProductsManagerDB {
     async addProduct(product) {
         try {
             const exists = await this.productsModel.findOne({code: product.code})
-            console.log("existe", exists);
             if(exists) {
                 throw new error("Product with same code already exists.")
             }

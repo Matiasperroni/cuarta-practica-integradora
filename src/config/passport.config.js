@@ -4,7 +4,7 @@ import local from "passport-local";
 import userModel from "../dao/models/users.schema.js";
 import CartManagerDB from "../dao/mongo/carts.manager.js";
 
-import jwt from 'passport-jwt';
+import jwt from "passport-jwt";
 import {
     createHash,
     validatePassword,
@@ -27,8 +27,6 @@ const cookieExtractor = (req) => {
     }
     return token;
 };
-
-
 
 const initializePassport = () => {
     passport.use(
@@ -68,6 +66,9 @@ const initializePassport = () => {
                         age,
                         password: createHash(password),
                         cart,
+                        last_connection: new Date().toLocaleString("en-GB", {
+                            hour12: false,
+                        }),
                     };
                     user = await userModel.create(newUser);
                     return done(null, user);
@@ -86,13 +87,15 @@ const initializePassport = () => {
                 try {
                     const user = await userModel.findOne({ email: username });
                     //console.log(user, "veremos"); //.populate("Carts", userService) //aca!!!;
-                    if (!user){
-                    console.log("no paso", user);
-                        return done(null, false, { message: "User not found" });}
+                    if (!user) {
+                        console.log("no paso", user);
+                        return done(null, false, { message: "User not found" });
+                    }
                     if (!validatePassword(user, password)) {
                         {
-                        //console.log("no pw", user);
-                        return done(null, false);}
+                            //console.log("no pw", user);
+                            return done(null, false);
+                        }
                     }
                     const jwt = generateToken(user);
                     // console.log(jwt, "veremos");
@@ -150,7 +153,5 @@ const initializePassport = () => {
         }
     });
 };
-
-
 
 export default initializePassport;

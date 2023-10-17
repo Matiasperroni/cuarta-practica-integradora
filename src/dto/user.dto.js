@@ -7,5 +7,6 @@ export default class UserDTO {
         this.githubProfile = user.githubProfile;
         this.role = user.role;
         this.cart = user.cart;
+        this.last_connection = user.last_connection;
     }
 }

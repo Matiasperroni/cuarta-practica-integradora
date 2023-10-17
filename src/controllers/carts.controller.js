@@ -16,7 +16,7 @@ export const getCarts = async (req, res) => {
             res.status(404).send("Server error.");
         }
     } catch (error) {
-        req.logger.error(`Interval server error creating cart ${error}`);
+        req.logger.error(`IServer error creating gettin carts. ${error}`);
         res.status(500).send("Server error.");
     }
 };

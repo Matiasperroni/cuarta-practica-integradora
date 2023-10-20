@@ -65,7 +65,8 @@ export const addProductToCart = async (req, res) => {
     try {
         const cartID = req.params.cid;
         const prodID = req.params.pid;
-        const user = req.session.user;
+        const user = req.user;
+        
         const cart = await cartRepository.getById(cartID);
         console.log(cart);
         if (cart) {

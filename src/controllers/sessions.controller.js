@@ -114,8 +114,7 @@ export const changePassword = async (req, res) => {
 };
 
 export const getCartFromUser = async (req, res) => {
-    const cart = req.session.user.cart;
-    // console.log(cart, "soy el cart de la ruta");
+    const cart = req.user?.cart || req.session.user.cart;
     res.send({cart});
 };
 

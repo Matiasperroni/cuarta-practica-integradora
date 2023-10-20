@@ -1,18 +1,18 @@
 import { setLastConnection } from "../controllers/sessions.controller.js";
 
 export const isConnected = (req, res, next) => {
-    if (req.session.user) return res.redirect("/api/products");
+    if (req.user) return res.redirect("/api/products");
     next();
 };
 
 export const isDisconnected = (req, res, next) => {
-    if (!req.session.user) return res.redirect("/login");
+    if (!req.user) return res.redirect("/login");
     next();
 };
 
 export const isAdminOrPremium = (req, res, next) => {
-    const user = req.session.user;
-    if (user.role === "Admin" || user.role === "Premium") {
+    const user = req.user;
+    if (user?.role === "Admin" || user?.role === "Premium") {
         next();
     } else {
         res.status(401).send({ error: "Unauthorized" });
@@ -20,7 +20,7 @@ export const isAdminOrPremium = (req, res, next) => {
 };
 
 export const isUserPremiumOrAdmin = (req, res, next) => {
-    const user = req.session.user;
+    const user = req.user || req.session.user;
     console.log("soy el user del middleware", user);
     if (!user) res.status(401).redirect("/login");
     if (
@@ -41,8 +41,8 @@ export const isUserPremiumOrAdmin = (req, res, next) => {
 
 export const isUserAvailableToAddToCart = (req, res, next) => {
     if (
-        req?.session?.user?.role === "User" ||
-        req?.session?.user?.role === "Premium"
+        req?.user?.role === "User" ||
+        req?.user?.role === "Premium"
     ) {
         next();
     } else {

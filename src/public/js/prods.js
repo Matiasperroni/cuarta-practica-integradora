@@ -32,7 +32,6 @@ const addToCart = async (e) => {
         // body: "quantity: quantity" ,
     });
     const result = await response.json();
-    console.log(result);
 };
 
 const logout = async() => {

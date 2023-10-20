@@ -86,7 +86,6 @@ const initializePassport = () => {
             async (username, password, done) => {
                 try {
                     const user = await userModel.findOne({ email: username });
-                    //console.log(user, "veremos"); //.populate("Carts", userService) //aca!!!;
                     if (!user) {
                         console.log("no paso", user);
                         return done(null, false, { message: "User not found" });
@@ -117,7 +116,6 @@ const initializePassport = () => {
             },
             async (accessToken, refreshToken, profile, done) => {
                 try {
-                    console.log(profile);
                     let user = await userModel.findOne({
                         email: profile._json.email,
                     });

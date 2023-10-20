@@ -4,7 +4,6 @@ export const changeRole = async (req, res) => {
     try {
         const userID = req.params.uid;
         const user = req.session.user;
-        console.log(user, "from changerole");
         if (user.role === "User") {
             const userDocuments = user.documents || [];
             const requiredDocuments = ["id", "address", "account"];

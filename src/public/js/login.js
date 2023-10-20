@@ -14,6 +14,8 @@ form.addEventListener("submit", (e) => {
     }).then((result) => {
         if (result.status === 200) {
             window.location.replace("/api/products");
+        } else {
+            window.alert("Incorrect username or password.")
         }
     });
 });

@@ -111,8 +111,7 @@ export const addProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
     const prodID = req.params.pid;
     const prodToAdd = req.body;
-    const user = req.session.user;
-    console.log(user, "user", prodToAdd, "prod");
+    const user = req.user;
     let prodToUpdate;
     if (user.role === "Admin" || user.email === prodToAdd.owner) {
         prodToUpdate = await productRepository.updateProduct(prodID, prodToAdd);
@@ -131,11 +130,9 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
     try {
         const prodID = req.params.pid;
-        // console.log("PRODUCTO ID", prodID);
-        const user = req.session.user;
-        // console.log("USUARIO", user);
+        const user = req.user;
+        console.log("USUARIO", user);
         const prodToDelete = await productRepository.getProductById(prodID);
-        // console.log("PRODUCTO TO DELETE", prodToDelete);
         if (user.role === "Admin" || user.email === prodToDelete.owner) {
             await productRepository.deleteProduct(prodID);
         } else {
@@ -146,7 +143,7 @@ export const deleteProduct = async (req, res) => {
                 message: "Could not delete product",
             });
         }
-        res.send(prodToDelete);
+        res.status(200).send(prodToDelete);
     } catch (error) {
         req.logger.error(`Server error deleting products ${error}`);
         res.status(500).send("Error getting data.");
